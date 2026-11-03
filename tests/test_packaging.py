@@ -100,11 +100,11 @@ def test_desktop_smoke_waits_for_native_loaded_event_and_checks_branding(monkeyp
         events = types.SimpleNamespace(loaded=Loaded())
 
         def evaluate_js(self, script):
-            assert '.twys-logo' in script and 'naturalWidth' in script
+            assert '.identity .brandtext b' in script and 'textContent' in script
             with build_opener(ProxyHandler({})).open(urls[0] + '/api/health', timeout=5) as response:
                 assert json.load(response)['status'] == 'ok'
             return {'title': 'TWYS | TRADE WHAT YOU SEE', 'app': True, 'workspace': True,
-                    'navigation': 12, 'logo': True}
+                    'navigation': 12, 'brand': True}
 
         def destroy(self):
             destroyed.set()
