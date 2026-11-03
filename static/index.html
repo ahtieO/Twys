@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TWYS | TRADE WHAT YOU SEE · ALL IN INC.</title>
+<meta name="theme-color" content="#0a0d11"/>
+<link rel="icon" type="image/png" href="/static/twys-icon.png"/>
+<link rel="stylesheet" href="/static/style.css" /><link rel="stylesheet" href="/static/v22.css" /><link rel="stylesheet" href="/static/v23.css" /><link rel="stylesheet" href="/static/v24.css" /><link rel="stylesheet" href="/static/v25.css" /><link rel="stylesheet" href="/static/v28.css" />
+<link rel="stylesheet" href="/static/polish.css" />
+</head><body>
+<div id="app">
+  <aside class="sidebar">
+    <header class="identity"><img class="twys-logo" src="/static/twys-icon.png" width="38" height="38" alt=""/><div class="brandtext"><b>TWYS</b><small>TRADE WHAT YOU SEE</small></div></header>
+    <div class="sidebar-section">MARKET INTELLIGENCE</div>
+    <nav id="navigation">
+      <button class="nav-item active" data-page="marketdesk" type="button"><span class="nav-glyph">▥</span>Markets</button>
+      <button class="nav-item" data-page="watchlist" type="button"><span class="nav-glyph">☆</span>Watchlist</button>
+      <button class="nav-item" data-page="newsdesk" type="button"><span class="nav-glyph">▤</span>News</button>
+      <button class="nav-item" data-page="macro" type="button"><span class="nav-glyph">↗</span>Macro Desk</button>
+    </nav>
+    <div class="sidebar-section" id="private-label">YOUR TRADING</div>
+    <nav>
+      <button class="nav-item" data-page="journal22" type="button"><span class="nav-glyph">▤</span>Journal</button>
+      <button class="nav-item" data-page="performance" data-requires="performance" type="button"><span class="nav-glyph">⌁</span>Performance</button>
+      <button class="nav-item" data-page="strategy" data-requires="setup" type="button"><span class="nav-glyph">◇</span>Strategy research</button>
+      <button class="nav-item" data-page="psychology" data-requires="psychology" type="button"><span class="nav-glyph">◉</span>Psychology</button>
+      <button class="nav-item" data-page="screenshots" data-requires="screenshot_review" type="button"><span class="nav-glyph">▣</span>Chart review</button>
+      <button class="nav-item" data-page="research" data-requires="records" type="button"><span class="nav-glyph">⌕</span>Research assistant</button>
+    </nav>
+    <div class="sidebar-section data-label">SETTINGS</div>
+    <nav><button class="nav-item" data-page="connections" type="button"><span class="nav-glyph">⤧</span>Connections & Notion</button><button class="nav-item" data-page="data" type="button"><span class="nav-glyph">▤</span>Data & backup</button></nav>
+    <div class="sidebar-spacer"></div><div class="v22-watch-mini" id="v22-watch-mini"></div>
+    <div class="sidebar-status"><span class="status-light"></span><span>LOCAL TERMINAL</span><span class="status-end">LOCAL</span></div>
+    <div class="sidebar-footer"><div class="signature">ALL IN <span>INC.</span></div><div>TRADE WHAT YOU SEE</div></div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar"><div class="topbar-location"><span class="crumb">TWYS</span><span class="slash">/</span><span id="page-crumb">MARKETS</span></div><div class="topbar-right"><button class="global-search-button" id="global-search-button" type="button">⌕ &nbsp; Search markets, news, trades <kbd>Ctrl K</kbd></button><span id="local-time" class="clock"></span><span class="topbar-version">TWYS 2.8</span></div></header>
+    <main class="workspace" id="workspace" aria-label="Trading workspace" tabindex="-1"><div class="loading" role="status"><img class="twys-loading-logo" src="/static/twys-icon.png" width="52" height="52" alt="TWYS"/><span class="loader"></span>Initializing TWYS terminal...</div></main>
+    <footer class="bottombar"><span>TWYS <span class="muted">BY ALL IN INC.</span></span><span class="bottom-right"><span id="footer-source">LOCAL SQLITE DATABASE</span><span class="separator-dot"></span><span>MARKET INTELLIGENCE</span></span></footer>
+  </div>
+</div>
+<div class="global-search-overlay hidden" id="global-search-overlay"><div class="search-modal" role="dialog" aria-modal="true" aria-label="Search TWYS" tabindex="-1"><div class="global-search-header"><span aria-hidden="true">⌕</span><input id="global-query" aria-label="Search markets and your journal" placeholder="Search markets and your journal..." autocomplete="off"/><button id="close-global" class="btn" aria-label="Close search">ESC</button></div><div id="global-results" class="global-results"></div><div class="search-hint">DETERMINISTIC SEARCH · NO AI REQUIRED · CTRL / ⌘ + K</div></div></div>
+<div class="overlay hidden" id="overlay"><div class="veil" id="veil"></div><aside class="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1"><div class="drawer-header"><div><span class="eyebrow">SOURCE RECORD</span><h2 id="detail-title">Trade detail</h2></div><button class="icon-button" id="close-detail" title="Close" aria-label="Close trade details">×</button></div><div class="drawer-content" id="drawer-content"></div></aside></div>
+<div class="lightbox hidden" id="lightbox" role="dialog" aria-label="Chart screenshot" aria-modal="true"><div class="v28-photo-top"><span id="v28-photo-caption"></span><button id="close-lightbox" title="Close image">×</button></div><button id="v28-photo-prev" class="v28-photo-step" aria-label="Previous screenshot">‹</button><div class="v28-photo-stage"><img id="lightbox-image" alt="Expanded chart screenshot"/><p id="v28-photo-error" hidden>Image unavailable. Try Recheck all screenshots in Journal if the Notion image has been replaced.</p></div><button id="v28-photo-next" class="v28-photo-step" aria-label="Next screenshot">›</button></div>
+<div id="toast" class="toast" role="status"></div>
+<script src="/static/plotly.min.js"></script><script src="/static/v2.js"></script><script src="/static/app.js"></script><script src="/static/v22.js"></script><script src="/static/v24.js"></script><script src="/static/v25.js"></script><script src="/static/polish.js"></script>
+</body></html>

@@ -1,0 +1,4 @@
+-r requirements.txt
+keyring>=25,<27
+pywebview>=5,<7
+httpx>=0.25,<1

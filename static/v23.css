@@ -1,0 +1,55 @@
+/* TWYS 2.4 visual system. The brand is typography, icon only for shortcuts. */
+:root{--bg:#050608;--sidebar:#07080b;--surface:#101114;--surface2:#141519;--surface3:#191a1e;--border:#282b31;--muted:#adb2bb;--muted2:#828791;--text:#fafbfc;--accent:#f3f4f6;--up:#25da8d;--down:#f15f6c;--sidebar-w:216px}
+html,body,#app,.main-shell,.workspace{background:#06080b!important;color:#f7f8fa!important}
+.sidebar{background:#080a0c!important;border-color:#212328!important}
+.brandtext b{font-size:29px!important;font-weight:850!important;letter-spacing:1px!important}
+.brandtext small{font-size:10px!important;letter-spacing:1.05px!important}
+.identity{padding:15px 13px 20px!important;min-height:82px!important;margin-bottom:5px!important}
+.sidebar-section{color:#9aa0a9!important;font-size:10px!important;letter-spacing:1.2px!important}
+.nav-item{color:#b8bbc3!important;font-size:14px!important;transition:background .17s ease,color .17s ease,transform .17s ease!important}
+.nav-item:hover{color:#fff!important;background:#1a1d21!important;transform:translateX(2px)}
+.nav-item.active{background:#1c2027!important;border:1px solid #303640!important}
+.nav-item.active:before{background:#f7f8fa!important}
+.v22-watch-mini{border-color:#282c33!important}
+.topbar{background:#090b0e!important;border-color:#272b30!important;height:64px!important;min-height:64px!important}
+.global-search-button{background:#14171c!important;border-color:#363b42!important;font-size:13px!important;transition:background .15s ease}
+.global-search-button:hover{background:#23262d!important}
+.workspace{padding:14px 19px 30px!important}
+.bottombar{background:#0a0c0f!important;border-color:#292c31!important;color:white!important}
+.v22-panel,.panel,.v22-tickerbar{background:#111316!important;border-color:#292d33!important}
+.v22-phead,.panel-head{background:#16181c!important;border-color:#30333a!important}
+.v22-tickerwidget,.v22-chart,.v22-quick,.v22-searchdrop,.v22-globalfind input{background:#0c0f12!important}
+.v22-chart{height:500px!important}
+.v22-quick{min-height:145px!important}
+.v22-markethead{padding-top:5px!important}
+.v22-markethead h1{font-size:32px!important}
+.v22-coin{background:#d4a017!important}
+.v22-phead h2{font-size:15px!important}
+.v22-placeholder{font-size:13px!important;color:#b2b7bf!important}
+.v22-social-item a{font-size:13px!important}
+.v22-calendar-tbl{font-size:13px!important}
+.v22-calendar-tbl td{padding:11px 12px!important}
+.v22-day{background:#1e2229!important}
+.v22-calendar-tbl tbody tr:not(.v22-day):hover td{background:#20252d!important}
+.v22-news-layout.v23-one-column{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+.v22-events{max-height:none!important;overflow:visible!important}
+.v22-calendar-tbl .v22-event{min-width:320px}
+.v22-btn,.v22-related button,.v22-searchdrop button{transition:background .17s ease, border-color .17s ease, transform .17s ease}
+.v22-btn:hover,.v22-related button:hover{transform:translateY(-1px);background:#292d34!important}
+.v22-searchdrop{box-shadow:0 15px 55px #000!important}
+.v22-searchdrop button:hover{background:#252a33!important}
+.v22-globalfind input{border-color:#464a52!important}
+.v22-meter{background:#383a3e!important}
+.v23-remove-btn,.trade-x{cursor:pointer;color:#c9ccd2;background:transparent;border:1px solid #42464f;border-radius:6px;padding:5px 9px;font-size:14px}
+.v23-remove-btn:hover,.trade-x:hover{color:#fff;background:#7d2730;border-color:#b94b56}
+.v23-remove-btn{display:block;padding:11px 15px;margin:20px 0}
+.v23-imagegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px}
+.v23-imagecard{min-height:90px;border-radius:8px;overflow:hidden;border:1px solid #343840;background:#13161a;display:grid;place-items:center}
+.v23-imagecard .detail-photo{display:block;width:100%;height:auto;max-height:330px;object-fit:contain;cursor:zoom-in}
+.v23-imageerror{padding:14px;color:#adb4c1;font-size:12px}
+.r-review{background:#654320;color:#ffdb99;border-radius:5px;font-size:10px;padding:5px 8px;font-weight:850}
+.v23-trashrow{display:flex;gap:25px;align-items:center;background:#14171b;border:1px solid #292e37;border-radius:8px;padding:12px 15px;margin:7px 0}
+.v23-trashrow span{margin-left:auto;color:#9ca6b1}
+.v23-trashrow button{background:#e7ecef;color:#111;border:0;border-radius:5px;padding:9px 16px;cursor:pointer}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+@media(max-width:1300px){.v22-chart{height:400px!important}.v22-quick{min-height:100px!important}}

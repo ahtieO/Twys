@@ -1,0 +1,25 @@
+/* TWYS 2.8: readable image viewer, aligned market research cards */
+.lightbox{z-index:1000!important;gap:12px;padding:70px 24px 25px;background:rgba(0,0,0,.965)}
+.lightbox.hidden{display:none!important}
+.v28-photo-top{position:absolute;top:0;left:0;right:0;height:58px;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;background:#101114;border-bottom:1px solid #33363d;color:#fff;font-size:14px;font-weight:600;z-index:2}
+.v28-photo-top #close-lightbox{position:static;font-size:32px;cursor:pointer;line-height:1}
+.v28-photo-stage{min-width:0;min-height:0;flex:1;height:100%;display:flex;justify-content:center;align-items:center;overflow:auto}
+.v28-photo-stage img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in}
+.v28-photo-stage img.v28-photo-zoom{max-width:none;max-height:none;cursor:zoom-out}
+.v28-photo-stage #v28-photo-error{max-width:460px;padding:22px;border:1px solid #3e444b;color:#f0cfad;text-align:center}
+.v28-photo-step{font-size:36px;flex:0 0 42px;cursor:pointer;color:white;background:#181a1f;border:1px solid #35383e;border-radius:8px;height:70px}
+.v28-photo-step[hidden],#v28-photo-error[hidden],#lightbox-image[hidden]{display:none!important}
+.v28-image-card{outline-offset:3px}
+.v28-image-card .thumb{height:165px}
+.v28-image-card:hover{border-color:#f0f0f0}
+.v28-view-trade{margin-top:9px;background:#15191f;border:1px solid #3d444e;color:#dedfe4;border-radius:5px;padding:7px 9px;cursor:pointer}
+.v28-view-trade:hover{background:#30363f}
+.v22-rail{gap:12px;align-items:stretch}
+.v22-rail>.v22-panel{width:100%;min-width:0;flex-shrink:0;box-sizing:border-box}
+.v22-rail .v22-phead{display:flex;justify-content:flex-start;align-items:center;gap:9px;min-height:48px}
+.v22-rail .v22-phead h2{flex:1;text-align:left;min-width:0;overflow-wrap:anywhere}
+.v22-rail .v22-phead small{margin-left:auto;text-align:right}
+.v22-rail .v22-source,.v22-rail .v22-placeholder{overflow-wrap:anywhere}
+.v22-rail>.v22-panel{min-height:106px}
+.v28-secondary-sync{color:#b9c2cf;background:#111419}
+@media(max-width:750px){.lightbox{padding:66px 5px 10px;gap:4px}.v28-photo-step{flex-basis:30px;font-size:26px}.v28-photo-top{font-size:11px}}

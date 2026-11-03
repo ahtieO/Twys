@@ -1,0 +1,42 @@
+# Python / build artifacts
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+build/
+dist/
+*.spec
+*.exe
+*.msi
+*.zip
+
+# Never commit personal databases, trades, screenshots or credentials
+.env
+.env.*
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.jsonl
+*.parquet
+*.log
+config.json
+secrets.json
+data/
+media/
+cache/
+user_data/
+backup/
+backups/
+*.pfx
+*.p12
+*.pem
+*.key
+
+# Runtime and OS
+.DS_Store
+Thumbs.db
