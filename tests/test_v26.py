@@ -71,6 +71,9 @@ def test_calendar_previous_next_week_uses_supported_range_provider(monkeypatch):
         return json.dumps({'events':[{'title':'CPI','currency':'USD','datetime':prev.isoformat()+'T08:30:00+00:00','actual':'1.1','consensus':'1.0','prior':'0.9'}]}).encode()
     monkeypatch.setattr(i,'config',lambda:{'calendar_provider':'forexfactory'})
     monkeypatch.setattr(i,'fetch',fetched)
+    # Verify the date-range fallback even on a runner with working web access.
+    def unavailable(*args,**kwargs):raise OSError('primary webpage unavailable')
+    monkeypatch.setattr(i,'_forexfactory_web_calendar',unavailable)
     result=i.get_calendar(prev.isoformat(),(prev+timedelta(days=6)).isoformat())
     assert result['status']=='ok' and result['events'][0]['actual']=='1.1'
     assert len(args)==1 and 'financecalendar.com' in args[0]

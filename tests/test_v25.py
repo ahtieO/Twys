@@ -52,6 +52,9 @@ def test_legacy_off_calendar_uses_default_public_provider(monkeypatch):
     payload=[{'date':today.isoformat()+'T10:30:00+00:00','country':'USD','title':'Test CPI','impact':'High','actual':'0','forecast':'1.1','previous':'1.0'}]
     monkeypatch.setattr(integrations,'config',lambda:{'calendar_provider':'off'})
     monkeypatch.setattr(integrations,'fetch',lambda url,ttl=0:json.dumps(payload).encode())
+    # A live webpage must not replace the synthetic export fallback fixture.
+    def unavailable(*args,**kwargs):raise OSError('primary webpage unavailable')
+    monkeypatch.setattr(integrations,'_forexfactory_web_calendar',unavailable)
     result=integrations.get_calendar(start.isoformat(),(start+datetime.timedelta(days=6)).isoformat())
     assert result['status']=='ok' and result['events'][0]['actual']=='0'
 

@@ -46,7 +46,8 @@ def test_forexfactory_weekly_json_normalization():
     today=datetime.now(timezone.utc).date();this_sunday=today-__import__('datetime').timedelta(days=(today.weekday()+1)%7)
     sample=[{'title':'CPI m/m','country':'CAD','date':this_sunday.isoformat()+'T08:30:00-04:00',
              'impact':'High','forecast':'0.2%','previous':'-0.1%'}]
-    with patch.object(i,'config',return_value={}), patch.object(i,'fetch',return_value=json.dumps(sample).encode()) as fetch:
+    # Exercise the JSON fallback, independent of live primary-page availability.
+    with patch.object(i,'_forexfactory_web_calendar',side_effect=OSError('primary webpage unavailable')), patch.object(i,'config',return_value={}), patch.object(i,'fetch',return_value=json.dumps(sample).encode()) as fetch:
         result=i.get_calendar(this_sunday.isoformat(),(this_sunday+__import__('datetime').timedelta(days=6)).isoformat())
     assert result['status']=='ok' and result['events'][0]['impact']=='high'
     assert result['events'][0]['currency']=='CAD'
