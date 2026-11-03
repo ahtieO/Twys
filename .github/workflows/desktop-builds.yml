@@ -5,7 +5,7 @@ on:
     branches: ['codex/twys-windows-installer']
     tags: ['v*']
 permissions:
-  contents: read
+  contents: write
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -39,7 +39,16 @@ jobs:
             exit $testExit
           }
       - name: Build Windows executable
-        run: python BUILD_NATIVE.py
+        shell: pwsh
+        run: |
+          $output = & python BUILD_NATIVE.py 2>&1
+          $buildExit = $LASTEXITCODE
+          $output | Tee-Object -FilePath pyinstaller-build.log
+          if ($buildExit -ne 0) {
+            $tail = ($output | Select-Object -Last 35 | Out-String).Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+            Write-Output "::error::$tail"
+            exit $buildExit
+          }
       - name: Bundle verified Microsoft WebView2 prerequisite
         shell: pwsh
         run: |
@@ -61,7 +70,13 @@ jobs:
           if (!(Test-Path 'TWYS-Setup.exe')) { throw 'TWYS-Setup.exe was not built at repository root' }
       - name: Verify --self-test and real Windows launch, install, upgrade and uninstall
         shell: pwsh
-        run: ./installer/windows/verify-install.ps1
+        run: |
+          try { ./installer/windows/verify-install.ps1 }
+          catch {
+            $message = ($_ | Out-String).Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+            Write-Output "::error::$message"
+            exit 1
+          }
       - name: Write installer checksum
         shell: pwsh
         run: |
@@ -75,6 +90,13 @@ jobs:
             TWYS-Setup.exe
             TWYS-Setup.exe.sha256
           if-no-files-found: error
+      - name: Stage tested installer download in a draft release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "twys-installer-build-${{ github.run_id }}" TWYS-Setup.exe TWYS-Setup.exe.sha256 --repo "${{ github.repository }}" --target "${{ github.sha }}" --draft --title 'TWYS 2.8 tested Windows installer' --notes 'Tested Windows installer staged for download. This release is a draft and has not been published.'
+          if ($LASTEXITCODE -ne 0) { throw 'Could not stage tested installer download' }
       - name: Upload build and test evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -83,6 +105,7 @@ jobs:
           path: |
             python-tests.xml
             build-requirements.txt
+            pyinstaller-build.log
             webview2-checksum.txt
             ${{ runner.temp }}/twys-windows-validation/*.json
           if-no-files-found: warn

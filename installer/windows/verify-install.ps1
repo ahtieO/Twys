@@ -25,7 +25,14 @@ function Invoke-CheckedProcess([string]$File, [string[]]$Arguments, [int]$Timeou
 }
 function Invoke-AppCheck([string]$Exe, [string]$Mode, [string]$Name) {
     $report = Join-Path $testRoot ($Name + '.json')
-    Invoke-CheckedProcess $Exe @($Mode, '--report', ('"{0}"' -f $report))
+    try { Invoke-CheckedProcess $Exe @($Mode, '--report', ('"{0}"' -f $report)) }
+    catch {
+        if (Test-Path $report) {
+            $failure = (Get-Content -LiteralPath $report -Raw).Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+            Write-Output "::error::$failure"
+        }
+        throw
+    }
     if (!(Test-Path $report)) { throw "App did not write current-run report: $Name" }
     $result = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
     if (!$result.ok) { throw "App check failed: $Name" }
