@@ -65,8 +65,15 @@ jobs:
         run: |
           choco install nsis -y --no-progress
           if ($LASTEXITCODE -ne 0) { throw 'NSIS installation failed' }
-          & 'C:\Program Files (x86)\NSIS\makensis.exe' installer/windows/twys.nsi
-          if ($LASTEXITCODE -ne 0) { throw 'NSIS compilation failed' }
+          $script = (Resolve-Path 'installer/windows/twys.nsi').Path
+          $output = & 'C:\Program Files (x86)\NSIS\makensis.exe' $script 2>&1
+          $nsisExit = $LASTEXITCODE
+          $output | Tee-Object -FilePath nsis-build.log
+          if ($nsisExit -ne 0) {
+            $tail = ($output | Select-Object -Last 35 | Out-String).Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+            Write-Output "::error::$tail"
+            exit $nsisExit
+          }
           if (!(Test-Path 'TWYS-Setup.exe')) { throw 'TWYS-Setup.exe was not built at repository root' }
       - name: Verify --self-test and real Windows launch, install, upgrade and uninstall
         shell: pwsh
@@ -106,6 +113,7 @@ jobs:
             python-tests.xml
             build-requirements.txt
             pyinstaller-build.log
+            nsis-build.log
             webview2-checksum.txt
             ${{ runner.temp }}/twys-windows-validation/*.json
           if-no-files-found: warn
