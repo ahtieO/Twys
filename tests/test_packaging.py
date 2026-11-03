@@ -120,4 +120,4 @@ def test_desktop_smoke_waits_for_native_loaded_event_and_checks_branding(monkeyp
 
     monkeypatch.setitem(sys.modules, 'webview', types.SimpleNamespace(create_window=create_window, start=start))
     result = twys_desktop.run_desktop(smoke=True)
-    assert result['logo'] is True and result['navigation'] == 12
+    assert result['brand'] is True and result['navigation'] == 12
