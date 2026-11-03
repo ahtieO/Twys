@@ -30,7 +30,14 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Build dependencies failed' }
           python -m pip freeze | Out-File -Encoding utf8 build-requirements.txt
       - name: Verify tests before packaging
-        run: python -m pytest -q --junitxml=python-tests.xml
+        shell: pwsh
+        run: |
+          python -m pytest -q --junitxml=python-tests.xml
+          $testExit = $LASTEXITCODE
+          if ($testExit -ne 0) {
+            python installer/windows/report-test-failures.py
+            exit $testExit
+          }
       - name: Build Windows executable
         run: python BUILD_NATIVE.py
       - name: Bundle verified Microsoft WebView2 prerequisite
