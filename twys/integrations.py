@@ -57,20 +57,24 @@ def save_config(updates):
     with _LOCK:CONFIG.write_text(json.dumps(d,indent=2),encoding='utf-8')
     return d
 
+def _keyring_service():
+    profile_id = os.getenv('TWYS_PROFILE_ID', 'legacy')
+    return 'TWYS Terminal' if profile_id == 'legacy' else 'TWYS Terminal:' + profile_id
+
 def secret(name):
     if os.getenv('TWYS_'+name):return os.getenv('TWYS_'+name)
     try:
         import keyring
-        return keyring.get_password('TWYS Terminal',name)
+        return keyring.get_password(_keyring_service(),name)
     except Exception:return None
 
 def save_secret(name,value):
     if name not in ('TWELVE_DATA_KEY','FMP_KEY','FRED_KEY','NOTION_TOKEN','MYFXBOOK_SESSION','OPENAI_API_KEY','COMPATIBLE_API_KEY'):raise ValueError('Invalid key name')
     try:
         import keyring
-        if value:keyring.set_password('TWYS Terminal',name,value)
+        if value:keyring.set_password(_keyring_service(),name,value)
         else:
-            try:keyring.delete_password('TWYS Terminal',name)
+            try:keyring.delete_password(_keyring_service(),name)
             except Exception:pass
     except Exception as ex:raise ValueError('Secure credential storage unavailable. Install keyring or use TWYS_'+name+' environment variable.') from ex
 

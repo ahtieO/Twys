@@ -31,7 +31,7 @@ def self_test():
         assert health.status_code == 200 and health.json()['status'] == 'ok'
         assert 'TWYS' in client.get('/').text
         assert client.get('/api/v2/symbols?q=XAU').status_code == 200
-        for asset in ('style.css', 'app.js', 'v22.js', 'plotly.min.js', 'polish.css', 'polish.js', 'twys-icon.png'):
+        for asset in ('style.css', 'app.js', 'v22.js', 'plotly.min.js', 'polish.css', 'polish.js', 'v29.css', 'v29.js', 'twys-icon.png'):
             response = client.get('/static/' + asset)
             assert response.status_code == 200 and response.content, asset
     return {'health': True, 'bundled_assets': True, 'database': True}
@@ -85,8 +85,8 @@ def run_desktop(smoke=False):
                             app: !!document.querySelector('#app'),
                             workspace: !!document.querySelector('#workspace'),
                             navigation: document.querySelectorAll('.nav-item').length,
-                            logo: (() => { const mark = document.querySelector('.twys-logo');
-                                return !!mark && mark.complete && mark.naturalWidth > 0; })()
+                            brand: (() => { const mark = document.querySelector('.identity .brandtext b');
+                                return !!mark && mark.textContent.trim() === 'TWYS'; })()
                         })'''))
                     except Exception as exc:
                         result['error'] = str(exc)
@@ -98,7 +98,7 @@ def run_desktop(smoke=False):
         webview.start(debug=False, gui='edgechromium' if sys.platform == 'win32' else None)
         if smoke:
             if result.get('error') or not all((result.get('app'), result.get('workspace'),
-                    result.get('logo'), result.get('navigation', 0) >= 10,
+                    result.get('brand'), result.get('navigation', 0) >= 10,
                     'TWYS' in result.get('title', ''))):
                 raise RuntimeError('Desktop smoke test failed: ' + json.dumps(result))
         return result
@@ -116,6 +116,10 @@ def main(argv=None):
     parser.add_argument('--report', type=Path)
     args = parser.parse_args(argv)
     try:
+        if not args.self_test:
+            from twys.profile import choose_on_launch
+            if choose_on_launch(interactive=not args.smoke_test) is None:
+                return 0  # User cancelled first-launch profile choice.
         checks = self_test() if args.self_test else run_desktop(args.smoke_test)
         write_report(args.report, ok=True, mode='self-test' if args.self_test else 'desktop', checks=checks)
         return 0

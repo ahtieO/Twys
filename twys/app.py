@@ -12,7 +12,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Streamin
 from fastapi.staticfiles import StaticFiles
 from . import engine as e, integrations as cfg, ai
 from .v2_routes import router as v2_router
-from . import notion_sync, marketplace
+from . import notion_sync, marketplace, profile
 
 @asynccontextmanager
 async def app_lifespan(app):
@@ -46,7 +46,22 @@ app.mount('/media',StaticFiles(directory=str(e.MEDIA)),name='media')
 def home():return (static/'index.html').read_text(encoding='utf-8')
 
 @app.get('/api/health')
-def health():return {'status':'ok','brand':'TWYS | TRADE WHAT YOU SEE','company':'ALL IN INC.','version':'2.8'}
+def health():return {'status':'ok','brand':'TWYS | TRADE WHAT YOU SEE','company':'ALL IN INC.','version':'2.9'}
+
+@app.get('/api/profile')
+def get_profile_status():
+    return profile.status()
+
+@app.post('/api/profile/select')
+async def select_next_profile(request: Request):
+    # Selection affects only the next launch. No journal is deleted.
+    data = await request.json()
+    mode = data.get('mode') if isinstance(data, dict) else None
+    if mode not in ('fresh', 'existing'):
+        raise HTTPException(400, 'Choose fresh or existing profile')
+    path, profile_id = profile.select_profile(mode)
+    return {'selected': profile_id, 'restart_required': True,
+            'message': 'Close and reopen TWYS to switch profiles. Existing data is preserved.'}
 
 @app.get('/api/dashboard')
 def dashboard():
