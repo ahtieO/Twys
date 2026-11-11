@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090b0d">
+  <meta name="description" content="TWYS is a Windows desktop terminal for market intelligence, economic news, macro context, watchlists and personal trading research. By ALL IN INC.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TWYS | Trade What You See">
+  <meta property="og:description" content="Market intelligence and your private trading research in one focused Windows workspace.">
+  <title>TWYS · Trade What You See | ALL IN INC.</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080a0c;--panel:#11151a;--panel2:#151b20;--line:#29313a;--text:#f0f2f4;--muted:#a3acb7;--dim:#737e88;--green:#6ed8b3;--red:#e28591;--amber:#eac578;--r:16px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+    .wrap{width:min(1180px,calc(100% - 48px));margin:auto}
+    .kicker{font-size:.7rem;text-transform:uppercase;letter-spacing:.19em;color:var(--green);font-weight:800}
+    .muted{color:var(--muted)}
+    .top{border-bottom:1px solid var(--line);background:#0b0e11df;backdrop-filter:blur(16px);position:sticky;top:0;z-index:10}
+    .top-inner{min-height:76px;display:flex;gap:30px;justify-content:space-between;align-items:center}
+    .brand{display:flex;align-items:center;gap:11px}
+    .mark{font-weight:900;letter-spacing:-.075em;font-size:1.65rem}
+    .brand small{display:block;font-size:.57rem;letter-spacing:.18em;color:#bdc3ca;text-transform:uppercase;margin-top:2px}
+    nav{display:flex;align-items:center;gap:26px;font-size:.82rem;font-weight:700;color:#b9c3cd}
+    nav a:hover{color:#fff}
+    .nav-cta{border:1px solid #6b7985;border-radius:8px;padding:10px 14px;color:#fff}
+    .hero{padding:110px 0 76px;position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 72% 37%,#162d2a77,transparent 43%);pointer-events:none}
+    .hero-grid{position:relative;display:grid;grid-template-columns:1.06fr .94fr;gap:60px;align-items:center}
+    .tag{display:inline-flex;align-items:center;gap:10px;border:1px solid #31443e;background:#14221e;border-radius:100px;padding:9px 15px;font-size:.72rem;color:#baf0d9;font-weight:750;letter-spacing:.05em}
+    .pulse{height:7px;width:7px;border-radius:50%;background:#6bdbac;box-shadow:0 0 12px #59ce9c}
+    h1{font-size:clamp(3.2rem,6.2vw,6.2rem);letter-spacing:-.065em;line-height:1.02;margin:26px 0 24px;font-weight:810}
+    h1 em{font-style:normal;color:#b1bcc4}
+    .lead{font-size:1.08rem;line-height:1.78;max-width:540px;color:#b1bdc8;margin:0 0 29px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid #fff;background:#fff;color:#0b0e11;padding:15px 20px;border-radius:9px;font-weight:800;font-size:.88rem;transition:transform .2s,background .2s}
+    .button:hover{transform:translateY(-2px);background:#d9e0e6}
+    .button.secondary{color:#e9edf2;border-color:#53606a;background:#12171b}
+    .button.secondary:hover{background:#1b242b}
+    .fine{font-size:.75rem;color:var(--dim);margin-top:19px;line-height:1.6}
+    .terminal{border:1px solid #35414d;border-radius:15px;background:linear-gradient(160deg,#151c22,#0b1014);box-shadow:0 30px 100px #000b;overflow:hidden;transform:perspective(1250px) rotateY(-3deg)}
+    .terminal-head{padding:15px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #303b44;color:#ccd5db;font-size:.77rem}
+    .dots{display:flex;gap:5px}
+    .dots i{width:7px;height:7px;border-radius:50%;background:#47535d;display:block}
+    .terminal-body{padding:22px}
+    .terminal-title{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .terminal-title strong{font-size:1.15rem}
+    .terminal-title span{font-size:.67rem;color:var(--dim)}
+    .chart{margin:24px 0 17px;border:1px solid #273039;border-radius:8px;background:repeating-linear-gradient(0deg,transparent 0 53px,#27303977 54px 55px),repeating-linear-gradient(90deg,transparent 0 70px,#2730394d 71px 72px);height:215px;display:flex;align-items:center}
+    .chart svg{width:100%;height:95%;overflow:visible}
+    .tiny-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .tiny{background:#171f25;border:1px solid #2f3b43;border-radius:8px;padding:14px;min-height:88px}
+    .tiny b{font-size:.75rem;display:block;margin-bottom:8px}
+    .tiny p{font-size:.69rem;line-height:1.55;color:#9aa9b5;margin:0}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:26px 0 55px;border-bottom:1px solid var(--line)}
+    .stat{border-left:1px solid #34404a;padding-left:22px}
+    .stat strong{display:block;font-size:1rem;margin-bottom:8px}
+    .stat span{color:var(--muted);font-size:.78rem;line-height:1.65}
+    section{scroll-margin-top:100px}
+    .section{padding:86px 0}
+    .section-heading{max-width:760px;margin-bottom:34px}
+    h2{font-size:clamp(2rem,4vw,3.45rem);letter-spacing:-.05em;line-height:1.12;margin:14px 0 17px}
+    .section-heading p{color:var(--muted);font-size:1rem;line-height:1.75}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .feature{background:linear-gradient(155deg,#161c22,#101419);border:1px solid #2e3741;border-radius:14px;padding:27px;min-height:200px}
+    .feature .num{font-size:.68rem;color:var(--green);font-weight:800;letter-spacing:.12em}
+    .feature h3{font-size:1.1rem;margin:30px 0 9px}
+    .feature p{font-size:.85rem;line-height:1.8;color:var(--muted);margin:0}
+    .band{background:#10161b;border-top:1px solid #273139;border-bottom:1px solid #273139}
+    .split{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:55px}
+    .statement{font-size:clamp(1.9rem,3.7vw,3.3rem);font-weight:750;letter-spacing:-.055em;line-height:1.26}
+    .statement span{color:var(--green)}
+    .principles{list-style:none;padding:0;margin:0}
+    .principles li{padding:17px 0;border-bottom:1px solid #2d3841;font-size:.9rem;line-height:1.65;color:#c0cbd3}
+    .principles li strong{color:#f0f4f7;display:block;font-size:.94rem;margin-bottom:2px}
+    .download-card{border:1px solid #425660;background:linear-gradient(120deg,#192921,#12181e 56%,#181b20);border-radius:18px;padding:36px 42px;display:flex;align-items:center;gap:35px;justify-content:space-between}
+    .download-card h2{font-size:2.45rem;margin:8px 0}
+    .download-card p{margin:0;color:var(--muted);line-height:1.7;font-size:.87rem;max-width:550px}
+    footer{border-top:1px solid var(--line);padding:32px 0 42px;color:#8c99a4;font-size:.76rem;line-height:1.8}
+    .footrow{display:flex;justify-content:space-between;gap:25px;align-items:flex-start;flex-wrap:wrap}
+    footer a{text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:950px){.hero-grid,.split{grid-template-columns:1fr}.terminal{transform:none;max-width:680px}.feature-grid{grid-template-columns:repeat(2,1fr)}.hero{padding-top:72px}.stats{gap:8px}}
+    @media(max-width:620px){.wrap{width:min(100% - 34px,1180px)}.top-inner{min-height:68px}nav{gap:10px}nav a:not(.nav-cta){display:none}.hero{padding:54px 0 45px}.hero-grid{gap:38px}h1{font-size:3.35rem}.lead{font-size:.96rem}.stats{grid-template-columns:1fr;padding:22px 0 35px;gap:24px}.section{padding:62px 0}.feature-grid{grid-template-columns:1fr}.feature{min-height:175px}.download-card{padding:28px 23px;display:block}.download-card .button{margin-top:23px}.terminal-body{padding:15px}.chart{height:170px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}.button:hover{transform:none}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="#top" aria-label="TWYS home">
+        <div><div class="mark">TWYS</div><small>TRADE WHAT YOU SEE</small></div>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#principles">Philosophy</a>
+        <a href="https://github.com/ahtieO/Twys">GitHub</a>
+        <a class="nav-cta" href="https://github.com/ahtieO/Twys/releases">Get TWYS ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main id="top">
+    <div class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="tag"><span class="pulse" aria-hidden="true"></span> WINDOWS DESKTOP · VERSION 1.0</div>
+          <h1>See the market.<br><em>Understand the move.</em></h1>
+          <p class="lead">Financial-market intelligence, macro context and personal trading research. One focused desktop workspace designed to make the data useful, not overwhelming.</p>
+          <div class="actions">
+            <a class="button" href="https://github.com/ahtieO/Twys/releases">Download for Windows <span aria-hidden="true">↗</span></a>
+            <a class="button secondary" href="https://github.com/ahtieO/Twys">Explore the project <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="fine">Windows x64 · No broker or trade execution · Installer currently unsigned<br>Availability of public market feeds depends on third-party sources.</p>
+        </div>
+        <div class="terminal" role="img" aria-label="Illustrative TWYS workspace showing a line chart and research panels; this is not actual market data">
+          <div class="terminal-head"><b>TWYS / MARKET INTELLIGENCE</b><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div></div>
+          <div class="terminal-body">
+            <div class="terminal-title"><strong>Understand the price. Find the context.</strong><span>ILLUSTRATIVE</span></div>
+            <div class="chart">
+              <svg viewBox="0 0 520 180" aria-hidden="true">
+                <defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#54ba99" stop-opacity=".24"/><stop offset="1" stop-color="#54ba99" stop-opacity="0"/></linearGradient></defs>
+                <path d="M 0 145 L 27 132 L 46 139 L 72 107 L 94 116 L 124 91 L 150 103 L 170 75 L 196 96 L 217 67 L 244 81 L 272 51 L 296 59 L 321 30 L 346 66 L 365 54 L 393 70 L 421 42 L 445 48 L 468 25 L 497 30 L 520 8 L 520 180 L 0 180 Z" fill="url(#fill)"/>
+                <path d="M 0 145 L 27 132 L 46 139 L 72 107 L 94 116 L 124 91 L 150 103 L 170 75 L 196 96 L 217 67 L 244 81 L 272 51 L 296 59 L 321 30 L 346 66 L 365 54 L 393 70 L 421 42 L 445 48 L 468 25 L 497 30 L 520 8" fill="none" stroke="#69d8b2" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="tiny-grid">
+              <div class="tiny"><b>Macro Desk</b><p>Inflation · Policy rates<br>Treasury yields · Cross-market context</p></div>
+              <div class="tiny"><b>Trading Journal</b><p>Private notes · Screenshots<br>Setup reviews · Performance in R</p></div>
+            </div>
+            <p class="fine" style="margin:13px 0 0">Concept illustration only. Not live prices or a screenshot of user data.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap stats" aria-label="Product highlights">
+      <div class="stat"><strong>One research workspace</strong><span>Markets, economic events and macro context in a single terminal.</span></div>
+      <div class="stat"><strong>Your journal, your PC</strong><span>Personal trading records stay separate from the application installer.</span></div>
+      <div class="stat"><strong>AI is optional</strong><span>Use a connected model or keep your research workflow independent.</span></div>
+    </div>
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-heading"><div class="kicker">THE WORKSPACE</div><h2>Everything in context.<br>Nothing in the way.</h2><p>TWYS organizes different kinds of market information into focused workspaces, so traders can explore the evidence behind decisions without juggling disconnected tools.</p></div>
+        <div class="feature-grid">
+          <article class="feature"><span class="num">01 / MARKETS</span><h3>Price and market research</h3><p>Search instruments, inspect TradingView-powered charts and review source-specific positioning and discussion where available.</p></article>
+          <article class="feature"><span class="num">02 / NEWS</span><h3>Economic events</h3><p>Follow a weekly economic calendar, published expectations, outcomes when available and attributed financial headlines.</p></article>
+          <article class="feature"><span class="num">03 / MACRO DESK</span><h3>The bigger picture</h3><p>Explore inflation, interest rates, nominal and real Treasury yields, and how different market relationships can interact.</p></article>
+          <article class="feature"><span class="num">04 / WATCHLIST</span><h3>Your instruments</h3><p>Keep the markets you follow within reach, with charts and related research organized around the selected instrument.</p></article>
+          <article class="feature"><span class="num">05 / JOURNAL</span><h3>Review your execution</h3><p>Connect a Notion trading journal to review notes, setup quality, screenshots and realized risk/reward.</p></article>
+          <article class="feature"><span class="num">06 / RESEARCH ASSISTANT</span><h3>Intelligence on your terms</h3><p>Connect optional Ollama or an external AI provider. Core navigation and analytics do not require generative AI.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section band" id="principles">
+      <div class="wrap split">
+        <div><div class="kicker">THE PHILOSOPHY</div><p class="statement">Not another broker.<br><span>A clearer view of the market.</span></p></div>
+        <ul class="principles">
+          <li><strong>Research first</strong>TWYS is built for information and review, not placing orders or managing client funds.</li>
+          <li><strong>Data with a source</strong>A market statistic is meaningful only when you know who reported it, what it covers and when.</li>
+          <li><strong>Private by design</strong>Start with a clean profile. Your trading journal and credentials are not packaged into the installer.</li>
+          <li><strong>Simple to use</strong>One installer, a dedicated desktop window and clear separation between personal and public data.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="section" id="download">
+      <div class="wrap">
+        <div class="download-card">
+          <div><div class="kicker">WINDOWS · VERSION 1.0</div><h2>Make sense of the market.</h2><p>Get the Windows installer from the official TWYS GitHub Releases page. The current build is unsigned. Verify the release and checksum before installing.</p></div>
+          <a class="button" href="https://github.com/ahtieO/Twys/releases">View releases ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap footrow"><div><b style="color:#f0f2f4;font-size:1rem">TWYS</b> · TRADE WHAT YOU SEE<br>Built by ALL IN INC. · © 2026</div><div>Market data may be delayed, incomplete or unavailable. TWYS does not execute trades or provide investment advice.<br><a href="https://github.com/ahtieO/Twys/blob/main/PRIVACY.md">Privacy</a> · <a href="https://github.com/ahtieO/Twys/blob/main/SECURITY.md">Security</a> · <a href="https://github.com/ahtieO/Twys">Source repository</a></div></div></footer>
+</body>
+</html>

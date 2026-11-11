@@ -7,6 +7,12 @@ Windows desktop terminal · **v1.0** · By **ALL IN INC.**
 
 TWYS is a research-first Windows desktop application built to make financial-market data easier to navigate, compare, and understand. It combines public market context with your own private trading journal. **TWYS is not a broker**. It does not execute trades, hold funds, or provide personalized investment advice.
 
+## Product launch page
+
+The responsive, black-and-white TWYS product landing page is maintained in **[docs/index.html](docs/index.html)**. It introduces the terminal, explains the core workspaces, links to official releases and describes the privacy-first, research-only scope.
+
+To publish it as a website, set the repository to **Public**, then open **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, select **main** and **/docs**, and save. GitHub will display the live Pages URL once deployment succeeds.
+
 ## Explore TWYS
 
 | Workspace | Purpose |
