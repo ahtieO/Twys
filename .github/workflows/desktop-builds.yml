@@ -2,7 +2,7 @@ name: TWYS Windows setup
 on:
   workflow_dispatch:
   push:
-    branches: ['codex/twys-windows-installer']
+    branches: ['main', 'codex/twys-windows-installer']
     tags: ['v*']
 permissions:
   contents: write
