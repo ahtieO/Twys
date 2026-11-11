@@ -43,9 +43,10 @@ def test_theme_profile_api_and_text_brand():
         assert client.get('/api/profile').status_code==200
         assert client.post('/api/profile/select',json={'mode':'wrong'}).status_code==400
 
-def test_wordmark_icon_is_transparent():
+def test_approved_icon_uses_black_background():
     from PIL import Image
     root=Path(__file__).resolve().parents[1]
     icon=Image.open(root/'assets/twys-icon.png').convert('RGBA')
-    assert icon.getpixel((0,0))[3]==0
-    assert icon.getchannel('A').getextrema()[1]==255
+    assert icon.getpixel((0,0))[:3]==(0,0,0)
+    assert max(icon.getpixel((44,204))[:3])>=235
+    assert icon.getchannel('A').getextrema()==(255,255)

@@ -63,13 +63,14 @@ def test_social_fallback_links_are_instrument_specific():
     assert 'AAPL' in links[0]['url'] and 'AAPL' in links[1]['url']
     assert all(l['url'].startswith('https://') for l in links)
 
-def test_sidebar_is_scrollable_and_icon_is_transparent():
+def test_sidebar_is_scrollable_and_icon_is_approved_white_on_black():
     css=(ROOT/'static/v25.css').read_text()
     assert '.sidebar{' in css and 'overflow-y:auto' in css
-    assert '.v22-watch-mini{' in css and 'overflow-y:auto' in css
+    assert 'overflow-y:auto' in css
+    assert 'id="v22-watch-mini"' not in (ROOT/'static/index.html').read_text()
     icon=Image.open(ROOT/'assets/twys-icon.png').convert('RGBA')
-    assert icon.getpixel((0,0))[3]==0
-    assert max(icon.getchannel('A').getextrema())==255
+    assert icon.getpixel((0,0))[:3]==(0,0,0)
+    assert max(icon.getpixel((44,204))[:3])>=235
 
 def test_main_api_market_relations():
     with TestClient(app) as client:
