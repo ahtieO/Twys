@@ -138,12 +138,12 @@ async function loadData(){let d=state.quality=await api('/api/quality');let q=d.
  try{
    const p=await api('/api/profile');
    const block=document.createElement('section');block.className='panel v29-profile-card';
-   block.innerHTML=`<div class="panel-head"><h2>LOCAL DATA PROFILE</h2><small>SAFE TO SWITCH · RESTART REQUIRED</small></div><div class="panel-body"><p>Current profile: <strong>${esc(p.is_legacy?'Existing TWYS data':'Fresh profile')}</strong></p><p class="smalltext">Start empty without deleting your original journal. Or return to your previous TWYS records, screenshots and settings. This never modifies Notion.</p><div class="action-row"><button class="btn" id="v29-profile-existing" ${p.is_legacy?'disabled':''}>USE EXISTING DATA</button><button class="btn" id="v29-profile-fresh">START FRESH</button></div><p class="smalltext">Changes take effect after closing and reopening TWYS.</p></div>`;
+   block.innerHTML=`<div class="panel-head"><h2>LOCAL DATA PROFILE</h2><small>SAFE TO SWITCH · RESTART REQUIRED</small></div><div class="panel-body"><p>Current profile: <strong>${esc(p.is_legacy?'Existing TWYS data':'Fresh profile')}</strong></p><p class="smalltext">Start empty without deleting your original journal. Or return to your previous TWYS records, screenshots and settings. This never modifies Notion.</p><div class="action-row"><button class="btn" id="v29-profile-existing" ${p.is_legacy?'disabled':''}>USE EXISTING DATA</button><button class="btn" id="v29-profile-fresh">START FRESH</button>${p.previous_available?'<button class="btn" id="v1-profile-previous">RESTORE PREVIOUS PROFILE</button>':''}</div><p class="smalltext">Changes take effect after closing and reopening TWYS.</p></div>`;
    $('#workspace').append(block);
-   for(const [id,mode] of [['v29-profile-existing','existing'],['v29-profile-fresh','fresh']]){
+   for(const [id,mode] of [['v29-profile-existing','existing'],['v29-profile-fresh','fresh'],['v1-profile-previous','previous']]){
      const b=document.getElementById(id);if(!b)continue;
      b.onclick=async()=>{
-       const text=mode==='fresh'?'Start with an EMPTY profile after reopening TWYS? Existing records remain saved separately.':'Switch back to original TWYS data after reopening? Your current profile remains saved.';
+       const text=mode==='fresh'?'Start with an EMPTY profile after reopening TWYS? Existing records remain saved separately.':mode==='previous'?'Restore the profile you used before TWYS 1.0? Your new clean profile remains saved.':'Switch back to the legacy TWYS v2 data after reopening? Your current profile remains saved.';
        if(!confirm(text))return;
        try{await api('/api/profile/select',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode})});toast('Profile selected. Close TWYS completely and reopen to apply.')}
        catch(err){toast(err.message)}

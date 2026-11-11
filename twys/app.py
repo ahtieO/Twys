@@ -46,7 +46,7 @@ app.mount('/media',StaticFiles(directory=str(e.MEDIA)),name='media')
 def home():return (static/'index.html').read_text(encoding='utf-8')
 
 @app.get('/api/health')
-def health():return {'status':'ok','brand':'TWYS | TRADE WHAT YOU SEE','company':'ALL IN INC.','version':'2.9.1'}
+def health():return {'status':'ok','brand':'TWYS | TRADE WHAT YOU SEE','company':'ALL IN INC.','version':'1.0.0'}
 
 @app.get('/api/profile')
 def get_profile_status():
@@ -57,7 +57,7 @@ async def select_next_profile(request: Request):
     # Selection affects only the next launch. No journal is deleted.
     data = await request.json()
     mode = data.get('mode') if isinstance(data, dict) else None
-    if mode not in ('fresh', 'existing'):
+    if mode not in ('fresh', 'existing', 'previous'):
         raise HTTPException(400, 'Choose fresh or existing profile')
     path, profile_id = profile.select_profile(mode)
     return {'selected': profile_id, 'restart_required': True,

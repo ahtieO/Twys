@@ -76,3 +76,9 @@ html[data-theme="light"] .v24-watch-symbol.active,html[data-theme="light"] .v24-
 html[data-theme="light"] .v24-watch-open{color:#243443!important}
 html[data-theme="light"] .v24-watch-remove{color:#a17617}
 html[data-theme="light"] .v24-watch-remove:hover{background:#f9eed7;border-color:#d9b877}
+
+/* TWYS 1.0: text-only header rhythm */
+.identity{padding-top:2px!important;padding-bottom:16px!important;align-items:flex-start!important}
+.identity .brandtext{gap:0!important}
+.identity .brandtext b{line-height:1!important;margin:0!important}
+.identity .brandtext small{padding-top:3px!important;line-height:1.15!important;margin:0!important}

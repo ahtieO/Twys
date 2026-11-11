@@ -1,4 +1,4 @@
-"""TWYS 2.9.1 focused regression checks: Markets, Watchlist, desktop icon."""
+"""TWYS 1.0 focused regression checks: Markets, Watchlist, desktop icon."""
 from pathlib import Path
 from fastapi.testclient import TestClient
 from twys.app import app
@@ -37,5 +37,5 @@ def test_icon_generator_uses_supplied_twys_mark_not_old_logo():
 
 def test_version_is_patch_release():
     with TestClient(app) as client:
-        assert client.get('/api/health').json()['version']=='2.9.1'
+        assert client.get('/api/health').json()['version']=='1.0.0'
         assert 'TWYS 2.9.1' in client.get('/').text

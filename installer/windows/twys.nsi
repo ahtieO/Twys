@@ -5,7 +5,7 @@ Unicode true
 ; makensis changes to the script's directory. All inputs and the single output
 ; are deliberately rooted at the checkout, regardless of the caller's cwd.
 !cd "${__FILEDIR__}/../.."
-!define APP_VERSION "2.9.1"
+!define APP_VERSION "1.0.0"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\TWYS"
 !define WEBVIEW_KEY "Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}"
 Name "TWYS | TRADE WHAT YOU SEE"
@@ -90,15 +90,19 @@ Section "Install TWYS"
     SetErrorLevel 1
     Abort "TWYS files could not be installed. Close TWYS and run Setup again."
   ${EndIf}
+  SetOutPath "$INSTDIR"
+  File /oname=TWYS-v1.ico "assets\twys-icon.ico"
   WriteUninstaller "$INSTDIR\uninstall.exe"
   CreateDirectory "$SMPROGRAMS\TWYS"
-  CreateShortCut "$SMPROGRAMS\TWYS\TWYS.lnk" "$INSTDIR\TWYS.exe" "" "$INSTDIR\TWYS.exe" 0
-  CreateShortCut "$DESKTOP\TWYS.lnk" "$INSTDIR\TWYS.exe" "" "$INSTDIR\TWYS.exe" 0
+  Delete "$SMPROGRAMS\TWYS\TWYS.lnk"
+  Delete "$DESKTOP\TWYS.lnk"
+  CreateShortCut "$SMPROGRAMS\TWYS\TWYS.lnk" "$INSTDIR\TWYS.exe" "" "$INSTDIR\TWYS-v1.ico" 0
+  CreateShortCut "$DESKTOP\TWYS.lnk" "$INSTDIR\TWYS.exe" "" "$INSTDIR\TWYS-v1.ico" 0
   CreateShortCut "$SMPROGRAMS\TWYS\Uninstall TWYS.lnk" "$INSTDIR\uninstall.exe"
   WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "TWYS"
   WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${APP_VERSION}"
   WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "ALL IN INC."
-  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\TWYS.exe,0"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\TWYS-v1.ico,0"
   WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallLocation" "$INSTDIR"
   WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" '"$INSTDIR\uninstall.exe"'
   WriteRegStr HKCU "${UNINSTALL_KEY}" "QuietUninstallString" '"$INSTDIR\uninstall.exe" /S'
@@ -123,6 +127,7 @@ Section "Uninstall"
   ; PyInstaller's owned runtime only; never recursively remove a user-selected
   ; install directory that may also contain unrelated files.
   RMDir /r "$INSTDIR\_internal"
+  Delete "$INSTDIR\TWYS-v1.ico"
   Delete "$INSTDIR\uninstall.exe"
   RMDir "$INSTDIR"
   DeleteRegKey HKCU "${UNINSTALL_KEY}"

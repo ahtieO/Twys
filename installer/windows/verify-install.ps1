@@ -57,7 +57,7 @@ Invoke-AppCheck (Join-Path $root 'dist\TWYS\TWYS.exe') '--smoke-test' 'packaged-
 if (Test-Path $appDir) { throw "Unexpected preexisting install: $appDir" }
 Invoke-CheckedProcess (Join-Path $root 'TWYS-Setup.exe') @('/S') 300
 $installedExe = Join-Path $appDir 'TWYS.exe'
-if (!(Test-Path $installedExe) -or !(Test-Path $desktop) -or !(Test-Path $startMenu)) {
+if (!(Test-Path $installedExe) -or !(Test-Path $desktop) -or !(Test-Path $startMenu) -or !(Test-Path (Join-Path $appDir 'TWYS-v1.ico'))) {
     throw 'Installed executable, Desktop or Start Menu shortcut missing'
 }
 $registration = Get-ItemProperty $registry
@@ -66,7 +66,7 @@ if ($registration.DisplayName -ne 'TWYS' -or $registration.InstallLocation -ne $
 $shell = New-Object -ComObject WScript.Shell
 foreach ($shortcut in @($desktop, $startMenu)) {
     $link = $shell.CreateShortcut($shortcut)
-    if ($link.TargetPath -ne $installedExe -or $link.IconLocation -notlike '*TWYS.exe*') {
+    if ($link.TargetPath -ne $installedExe -or $link.IconLocation -notlike '*TWYS-v1.ico*') {
         throw "Shortcut target or icon incorrect: $shortcut"
     }
 }

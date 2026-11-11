@@ -1,11 +1,19 @@
-# TWYS 2.3 changes from 2.2
+# Changelog
 
-- Reworked dark design toward black/white identity, improved readability, subtle animations, white desktop icon, removed in-app logo image.
-- Improved local searchable symbol list and added no-key public Binance spot symbol directory for broader crypto discovery.
-- Added gold-futures positioning via CFTC official weekly report for XAUUSD/GC source comparison; does not claim live universal buyers/sellers.
-- Rebuilt News as a single weekly calendar with Forex Factory's public JSON export parser, local time, filters and consistent weekly pagination. Removed the second competing calendar widget.
-- Added extreme-R review threshold so values such as +40,339R no longer distort headline trading analytics without review.
-- Added reversible local trash and restore buttons for trades. Upstream Notion deletion/archival detection waits for two successful queries, and automatically restored upstream trades reappear unless explicitly hidden locally.
-- Added Notion image caching and gallery viewer, signed image expiry handling, and local media validation.
-- Extended Python tests to 27 and added a Windows installation/uninstallation test to GitHub Actions alongside `.exe` self-test.
-- Prepared, but **have not yet compiled or installed**, the one-file Windows NSIS setup executable. The source archive is not that installer.
+## v1.0.0 · Initial public Windows release
+
+- Introduces TWYS as a research-first market intelligence and private journal desktop terminal
+- Markets, Watchlist, News, Macro Desk, Journal, analytics, optional research assistant
+- Fixes a Markets selector regression that caused the market screen to fail when opening
+- Removes the redundant sidebar mini-watchlist and market chart shortcut tabs
+- Adds an independent star to remove instruments from Watchlist
+- Makes the first interactive v1.0 launch start from a **new empty profile**; earlier data is preserved, never erased
+- Embeds the user-approved TWYS desktop artwork and gives the shortcut its own versioned icon
+- Tightens spacing in the text-only application masthead
+- Builds and tests the Windows installation through GitHub Actions
+
+Historical 2.x commits were internal development iterations and are not sequential public releases.
+
+### Important
+
+TWYS is not a broker, does not execute trades, and does not claim complete or real-time coverage from all data providers. The Windows installer is currently unsigned.

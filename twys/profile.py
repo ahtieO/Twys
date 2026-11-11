@@ -23,9 +23,9 @@ def _write_selection(root: Path, path: Path, profile_id: str) -> None:
     tmp.write_text(json.dumps({'profile_path':str(path),'profile_id':profile_id},indent=2),encoding='utf-8')
     tmp.replace(_selection_path(root))
 
-def _load_selection(root: Path) -> tuple[Path,str] | None:
+def _load_selection(root: Path, filename: str = 'profile_selection.json') -> tuple[Path,str] | None:
     try:
-        saved=json.loads(_selection_path(root).read_text(encoding='utf-8'))
+        saved=json.loads((root/filename).read_text(encoding='utf-8'))
         path=Path(saved['profile_path']).resolve()
         identity=str(saved.get('profile_id') or '')
         if not path.is_relative_to(root.resolve()):return None
@@ -38,6 +38,10 @@ def select_profile(mode: str, root: Path | None = None) -> tuple[Path,str]:
     """Write selection for the NEXT launch. No data or keychain records are deleted."""
     root=(root or profiles_root()).resolve()
     if mode=='existing':path,identity=legacy_profile(root),'legacy'
+    elif mode=='previous':
+        prior=_load_selection(root,'v1_previous_profile.json')
+        if prior is None:raise ValueError('No earlier profile available')
+        path,identity=prior
     elif mode=='fresh':
         identity='fresh-'+datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')+'-'+uuid.uuid4().hex[:8]
         path=root/'profiles'/identity
@@ -47,23 +51,30 @@ def select_profile(mode: str, root: Path | None = None) -> tuple[Path,str]:
     return path,identity
 
 def choose_on_launch(interactive: bool = True) -> tuple[Path,str] | None:
-    """Must run before importing the database-backed app."""
+    """Give public 1.0 a clean journal once, retaining existing private data.
+
+    Only an actual interactive desktop launch performs the migration.
+    Tests using explicit TWYS_DATA_DIR or --smoke-test remain deterministic.
+    """
     if os.getenv('TWYS_DATA_DIR'):
         return Path(os.environ['TWYS_DATA_DIR']),os.getenv('TWYS_PROFILE_ID','legacy')
     root=profiles_root().resolve()
-    existing=_load_selection(root)
-    if existing:chosen=existing
-    elif (legacy_profile(root)/'twys.sqlite3').is_file() and interactive and sys.platform=='win32':
-        import ctypes
-        message=('TWYS found a previous local journal.\n\n'
-                 'YES: Continue with your existing trades and settings.\n'
-                 'NO: Start with an empty TWYS profile.\n'
-                 'CANCEL: Close TWYS without changing anything.\n\n'
-                 'Your old files are never deleted.')
-        choice=ctypes.windll.user32.MessageBoxW(None,message,'TWYS 2.9 · Choose your data',0x23)
-        if choice==2:return None
-        chosen=select_profile('existing' if choice==6 else 'fresh',root)
-    else:chosen=select_profile('existing',root)
+    migration_flag=root/'v1_first_launch_complete'
+    if interactive and not migration_flag.exists():
+        old=_load_selection(root)
+        if old is None and (legacy_profile(root)/'twys.sqlite3').is_file():
+            old=legacy_profile(root),'legacy'
+        if old:
+            path,identity=old
+            root.mkdir(parents=True,exist_ok=True)
+            (root/'v1_previous_profile.json').write_text(
+                json.dumps({'profile_path':str(path),'profile_id':identity}),encoding='utf-8')
+        chosen=select_profile('fresh',root)
+        migration_flag.write_text('1.0; old profiles preserved',encoding='utf-8')
+    else:
+        chosen=_load_selection(root)
+        if chosen is None:
+            chosen=select_profile('fresh' if interactive else 'existing',root)
     path,identity=chosen
     os.environ['TWYS_DATA_DIR']=str(path)
     os.environ['TWYS_PROFILE_ID']=identity
@@ -77,4 +88,5 @@ def status() -> dict:
     return {'profile_id':current_id,'is_legacy':current_id=='legacy',
             'data_directory':str(current_path),
             'legacy_available':(legacy_profile(root)/'twys.sqlite3').is_file(),
+            'previous_available':_load_selection(root,'v1_previous_profile.json') is not None,
             'restart_required':bool(saved and saved[1]!=current_id)}

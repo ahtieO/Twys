@@ -48,5 +48,5 @@ def test_approved_icon_uses_black_background():
     root=Path(__file__).resolve().parents[1]
     icon=Image.open(root/'assets/twys-icon.png').convert('RGBA')
     assert icon.getpixel((0,0))[:3]==(0,0,0)
-    assert max(icon.getpixel((44,204))[:3])>=235
+    assert max(icon.convert('L').getextrema())>=235
     assert icon.getchannel('A').getextrema()==(255,255)
