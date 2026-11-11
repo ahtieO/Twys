@@ -30,12 +30,12 @@ def test_sidebar_no_longer_has_duplicate_watchlist():
 
 def test_icon_generator_uses_supplied_twys_mark_not_old_logo():
     script=(ROOT/'installer'/'windows'/'restore_legacy_icon.py').read_text(encoding='utf-8')
-    assert 'MARK_PATHS' in script
-    assert "'black'" in script and "'white'" in script
+    assert 'twys-launch-art.png' in script
+    assert "twys-icon.png" in script
     assert "twys-icon.ico" in script
     assert "twys-mark.png" not in script
 
 def test_version_is_patch_release():
     with TestClient(app) as client:
         assert client.get('/api/health').json()['version']=='1.0.0'
-        assert 'TWYS 2.9.1' in client.get('/').text
+        assert 'TWYS 1.0' in client.get('/').text

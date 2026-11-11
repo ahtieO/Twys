@@ -38,8 +38,8 @@ def test_theme_profile_api_and_text_brand():
         assert 'v29.css' in content and 'v29.js' in content
         assert '<header class="identity"><div class="brandtext">' in content
         assert '<img class="twys-logo"' not in content
-        assert 'TWYS 2.9.1' in content
-        assert client.get('/api/health').json()['version']=='2.9.1'
+        assert 'TWYS 1.0' in content
+        assert client.get('/api/health').json()['version']=='1.0.0'
         assert client.get('/api/profile').status_code==200
         assert client.post('/api/profile/select',json={'mode':'wrong'}).status_code==400
 
