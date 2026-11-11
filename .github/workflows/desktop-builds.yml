@@ -29,11 +29,11 @@ jobs:
           python -m pip install -r requirements-packaging.txt -r requirements-dev.txt
           if ($LASTEXITCODE -ne 0) { throw 'Build dependencies failed' }
           python -m pip freeze | Out-File -Encoding utf8 build-requirements.txt
-      - name: Restore classic TWYS desktop icon
+      - name: Build supplied TWYS desktop shortcut icon
         shell: pwsh
         run: |
           python installer/windows/restore_legacy_icon.py
-          if ($LASTEXITCODE -ne 0) { throw 'Legacy icon restoration failed' }
+          if ($LASTEXITCODE -ne 0) { throw 'TWYS shortcut icon generation failed' }
       - name: Verify tests before packaging
         shell: pwsh
         run: |
@@ -107,7 +107,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "twys-installer-build-${{ github.run_id }}" TWYS-Setup.exe TWYS-Setup.exe.sha256 --repo "${{ github.repository }}" --target "${{ github.sha }}" --draft --title 'TWYS 2.9 tested Windows installer' --notes 'Tested Windows installer staged for download. This release is a draft and has not been published.'
+          gh release create "twys-installer-build-${{ github.run_id }}" TWYS-Setup.exe TWYS-Setup.exe.sha256 --repo "${{ github.repository }}" --target "${{ github.sha }}" --draft --title 'TWYS 2.9.1 tested Windows installer' --notes 'Tested Windows installer staged for download. This release is a draft and has not been published.'
           if ($LASTEXITCODE -ne 0) { throw 'Could not stage tested installer download' }
       - name: Upload build and test evidence
         if: always()

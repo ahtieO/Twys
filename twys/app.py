@@ -46,7 +46,7 @@ app.mount('/media',StaticFiles(directory=str(e.MEDIA)),name='media')
 def home():return (static/'index.html').read_text(encoding='utf-8')
 
 @app.get('/api/health')
-def health():return {'status':'ok','brand':'TWYS | TRADE WHAT YOU SEE','company':'ALL IN INC.','version':'2.9'}
+def health():return {'status':'ok','brand':'TWYS | TRADE WHAT YOU SEE','company':'ALL IN INC.','version':'2.9.1'}
 
 @app.get('/api/profile')
 def get_profile_status():

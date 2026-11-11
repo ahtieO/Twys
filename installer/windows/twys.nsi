@@ -5,7 +5,7 @@ Unicode true
 ; makensis changes to the script's directory. All inputs and the single output
 ; are deliberately rooted at the checkout, regardless of the caller's cwd.
 !cd "${__FILEDIR__}/../.."
-!define APP_VERSION "2.9.0"
+!define APP_VERSION "2.9.1"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\TWYS"
 !define WEBVIEW_KEY "Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}"
 Name "TWYS | TRADE WHAT YOU SEE"

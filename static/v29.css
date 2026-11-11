@@ -63,3 +63,16 @@ html[data-theme="light"] .positive{color:#087c56!important}
 html[data-theme="light"] .negative{color:#be4051!important}
 html[data-theme="light"] .loading,html[data-theme="light"] .v22-loading{color:#475967!important}
 @media(max-width:1000px){.theme-switch{padding:7px 8px;font-size:10px}}
+
+/* Watchlist remove-favorite control (separate from opening an instrument). */
+.v24-watch-symbol{display:flex;align-items:stretch;justify-content:space-between;padding:0!important;min-height:48px;gap:4px}
+.v24-watch-open{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1;min-width:0;padding:12px 4px 12px 11px;border:0;background:transparent;color:inherit;cursor:pointer;text-align:left;font:inherit}
+.v24-watch-open span{white-space:nowrap}
+.v24-watch-remove{flex:none;width:40px;margin:5px 7px 5px 0;border:1px solid transparent;border-radius:6px;background:transparent;color:#f0c967;font-size:20px;line-height:1;cursor:pointer}
+.v24-watch-remove:hover,.v24-watch-remove:focus-visible{background:#35302a;border-color:#796c42;color:#ffdc69}
+.v24-watch-remove:disabled{opacity:.45;cursor:wait}
+html[data-theme="light"] .v24-watch-symbol{border-color:#dce5eb!important;color:#243443!important}
+html[data-theme="light"] .v24-watch-symbol.active,html[data-theme="light"] .v24-watch-symbol:hover{background:#edf2f6!important}
+html[data-theme="light"] .v24-watch-open{color:#243443!important}
+html[data-theme="light"] .v24-watch-remove{color:#a17617}
+html[data-theme="light"] .v24-watch-remove:hover{background:#f9eed7;border-color:#d9b877}
